@@ -8,11 +8,14 @@ import com.galaxydl.e_university.data.bean.ExamBean
 @Dao
 interface ExamBeanDao : BaseDao<ExamBean> {
 
+    @Query("select * from exam_bean limit 1")
+    override fun get(): ExamBean?
+
     @Query("select * from exam_bean")
     override fun list(): List<ExamBean>
 
     @Insert
-    override fun add(examBean: ExamBean)
+    override fun add(bean: ExamBean)
 
     @Query("delete from exam_bean")
     override fun clear()

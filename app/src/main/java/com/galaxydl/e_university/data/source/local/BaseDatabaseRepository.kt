@@ -4,20 +4,28 @@ import android.content.Context
 import com.galaxydl.e_university.data.bean.BaseBean
 import com.galaxydl.e_university.data.dao.BaseDao
 
-abstract class BaseRepository<B : BaseBean, D : BaseDao<B>>(val context: Context) {
+abstract class BaseDatabaseRepository<B : BaseBean, D : BaseDao<B>>(val context: Context)
+    : LocalDataSource<B> {
+
     val localDatabase: LocalDatabase by lazy {
         LocalDatabase.getInstance(context)
     }
 
     abstract val dao: D
 
-    fun list(): List<B> = dao.list()
+    override fun get(): B? = dao.get()
 
-    fun add(bean: B) {
+    override fun list(): List<B> = dao.list()
+
+    override fun add(bean: B) {
         dao.list()
     }
 
-    fun clear() {
+    override fun addAll(beans: List<B>) {
+        beans.forEach { add(it) }
+    }
+
+    override fun clear() {
         dao.clear()
     }
 }
