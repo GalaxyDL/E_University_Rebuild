@@ -1,8 +1,6 @@
-package com.galaxydl.e_university.data.source.network.cookie
+package com.galaxydl.e_university.data.source.network
 
 import com.galaxydl.e_university.data.bean.ClassBean
-import com.galaxydl.e_university.data.source.network.BaseCrawler
-import com.galaxydl.e_university.data.source.network.OkHttpClientManager
 import com.galaxydl.e_university.utils.CLASS_END_TIME
 import com.galaxydl.e_university.utils.CLASS_START_TIME
 import kotlinx.coroutines.experimental.CommonPool
