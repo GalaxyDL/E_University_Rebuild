@@ -7,7 +7,7 @@ import com.galaxydl.e_university.data.bean.BaseBean
 abstract class BaseSharedPreferencesRepository<B : BaseBean>(val context: Context)
     : LocalDataSource<B> {
 
-    val sp: SharedPreferences by lazy {
+    protected val sp: SharedPreferences by lazy {
         context.getSharedPreferences(sharedPreferencesName(), Context.MODE_PRIVATE)
     }
 

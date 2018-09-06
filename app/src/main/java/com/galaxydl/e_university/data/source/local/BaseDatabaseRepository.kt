@@ -7,11 +7,11 @@ import com.galaxydl.e_university.data.dao.BaseDao
 abstract class BaseDatabaseRepository<B : BaseBean, D : BaseDao<B>>(val context: Context)
     : LocalDataSource<B> {
 
-    val localDatabase: LocalDatabase by lazy {
+    protected val localDatabase: LocalDatabase by lazy {
         LocalDatabase.getInstance(context)
     }
 
-    abstract val dao: D
+    protected abstract val dao: D
 
     override fun get(): B? = dao.get()
 

@@ -4,6 +4,6 @@ import com.galaxydl.e_university.data.bean.BaseBean
 
 interface NetworkDataSource<B : BaseBean> {
 
-    fun load(onLoad: (List<B>) -> Unit)
+    fun load(onLoad: (List<B>) -> Unit, onError: (Exception) -> Unit)
 
 }
