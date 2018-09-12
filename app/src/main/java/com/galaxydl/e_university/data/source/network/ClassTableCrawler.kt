@@ -27,8 +27,7 @@ class ClassTableCrawler : BaseCrawler<ClassBean>() {
     override fun load(onLoad: (List<ClassBean>) -> Unit, onError: (Exception) -> Unit) {
         launch(CommonPool) {
             try {
-                val result = ArrayList<ClassBean>()
-                result.addAll(crawl())
+                val result = crawl()
                 launch(UI) { onLoad(result) }
             } catch (e: Exception) {
                 launch(UI) { onError(e) }
@@ -42,7 +41,7 @@ class ClassTableCrawler : BaseCrawler<ClassBean>() {
                 .get()
                 .headers(HEADERS)
                 .build()
-        val response = client.newCall(request).request()
+        val response = client.newCall(request).execute()
         val document = Jsoup.parse(response.body().toString())
         parse(document, result)
         return result
