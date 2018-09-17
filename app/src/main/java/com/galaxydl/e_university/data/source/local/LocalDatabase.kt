@@ -15,7 +15,7 @@ import com.galaxydl.e_university.data.dao.ScoreBeanDao
         version = 1)
 abstract class LocalDatabase : RoomDatabase() {
     companion object {
-        private val DATABASE_NAME = "eUniversity.db"
+        private const val DATABASE_NAME = "eUniversity.db"
 
         private lateinit var INSTANCE: LocalDatabase
 

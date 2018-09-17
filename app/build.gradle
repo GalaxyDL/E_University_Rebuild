@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -41,6 +44,7 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_lifecycle_version"
+    implementation 'com.alibaba:fastjson:1.1.33.android'
 
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
