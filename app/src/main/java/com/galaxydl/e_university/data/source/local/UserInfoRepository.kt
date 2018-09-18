@@ -7,13 +7,13 @@ class UserInfoRepository(context: Context) : BaseSharedPreferencesRepository<Use
     override fun sharedPreferencesName(): String = "user_info"
 
     companion object {
-        private val USER_ID_SP_KEY = "userID"
-        private val PASSWORD_SP_KEY = "password"
-        private val USER_NAME_SP_KEY = "username"
-        private val DEPARTMENT_SP_KEY = "department"
-        private val MAJOR_SP_KEY = "major"
-        private val SAVE_PASSWORD_SP_KEY = "savePassword"
-        private val NULL_STRING = "NULL"
+        private const val USER_ID_SP_KEY = "userID"
+        private const val PASSWORD_SP_KEY = "password"
+        private const val USER_NAME_SP_KEY = "username"
+        private const val DEPARTMENT_SP_KEY = "department"
+        private const val MAJOR_SP_KEY = "major"
+        private const val SAVE_PASSWORD_SP_KEY = "savePassword"
+        private const val NULL_STRING = "NULL"
     }
 
     override fun get(): UserInfoBean? {
