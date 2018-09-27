@@ -29,9 +29,9 @@ abstract class BaseBmobRepository<B : BaseBean> : NetworkDataSource<B> {
                 .build()
         launch(CommonPool) {
             try {
-                val reponse = client.newCall(request).execute()
+                val response = client.newCall(request).execute()
                 launch(UI) {
-                    onLoad(JSON.parseArray(reponse.body().toString(), getBeanClass()))
+                    onLoad(JSON.parseArray(response.body().toString(), getBeanClass()))
                 }
             } catch (e: Exception) {
                 launch(UI) { onError(e) }

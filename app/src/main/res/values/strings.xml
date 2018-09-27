@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">E_University</string>
+    <string name="class_table_empty_tips">还没有导入过数据呢，点击这里导入。</string>
+
+
 </resources>

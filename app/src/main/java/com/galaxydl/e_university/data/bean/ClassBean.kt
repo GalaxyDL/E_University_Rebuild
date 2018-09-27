@@ -22,8 +22,12 @@ data class ClassBean(@PrimaryKey val id: String = "NULL",
                      val endTime: Int = 0,
                      val classNumber: Int = 0,
                      val colorId: Int = 0,
-                     @Ignore val isDate: Boolean = false) : BaseBean() {
+                     @Ignore val isForDate: Boolean = false) : BaseBean() {
 
     constructor(month: Int, day: Int, date: Int)
-            : this(month = month, day = day, date = date, isDate = true)
+            : this(month = month,
+            day = day,
+            date = date,
+            time = "${month}月 ${day}日",
+            isForDate = true)
 }
