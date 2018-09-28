@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">E_University</string>
+
+    <string name="class_table_title">课程表</string>
     <string name="class_table_empty_tips">还没有导入过数据呢，点击这里导入。</string>
 
+    <string name="drawer_helper_title">教务助手</string>
+    <string name="drawer_helper_class_table">课程表</string>
+    <string name="drawer_helper_exams">考试时间</string>
+    <string name="drawer_helper_scores">成绩单</string>
 
 </resources>

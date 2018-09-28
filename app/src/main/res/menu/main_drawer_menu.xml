@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:title="@string/drawer_helper_title">
+            <menu>
+                <item
+                    android:checked="true"
+                    android:id="@+id/classTable"
+                    android:icon="@drawable/ic_class_table"
+                    android:title="@string/drawer_helper_class_table" />
+                <item
+                    android:id="@+id/exams"
+                    android:icon="@drawable/ic_exams"
+                    android:title="@string/drawer_helper_exams" />
+                <item
+                    android:id="@+id/scores"
+                    android:icon="@drawable/ic_scores"
+                    android:title="@string/drawer_helper_scores" />
+            </menu>
+        </item>
+    </group>
+
+</menu>

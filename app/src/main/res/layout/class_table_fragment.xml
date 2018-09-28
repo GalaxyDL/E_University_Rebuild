@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
             type="com.galaxydl.e_university.classTable.ClassTableViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="@{viewModel.empty ? View.GONE : View.VISIABLE}">
+            android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,7 +36,7 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
@@ -51,7 +51,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.empty ? View.VISIABLE : View.GONE}"
+            android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}"
             android:orientation="vertical">
 
             <TextView
@@ -64,4 +64,4 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-</>
+</layout>

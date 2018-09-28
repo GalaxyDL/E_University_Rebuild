@@ -2,6 +2,7 @@ package com.galaxydl.e_university.classTable
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ class ClassTableFragment : Fragment() {
 
     private lateinit var mViewModel: ClassTableViewModel
 
+    private lateinit var mAdapter: ClassTableAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -33,9 +35,12 @@ class ClassTableFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        val mRecyclerView = mBinding.classTableRV
-
-
+        val recyclerView = mBinding.classTableRV
+        if (!::mAdapter.isInitialized) {
+            mAdapter = ClassTableAdapter(ArrayList(), context!!)
+        }
+        recyclerView.layoutManager = LinearLayoutManager(context!!)
+        recyclerView.adapter = mAdapter
     }
 
 }
