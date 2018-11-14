@@ -7,6 +7,7 @@ import com.galaxydl.e_university.classTable.ClassTableViewModel
 import com.galaxydl.e_university.data.source.local.*
 import com.galaxydl.e_university.data.source.network.ClassTableCrawler
 import com.galaxydl.e_university.data.source.network.HolidayInfoBmobRepository
+import com.galaxydl.e_university.data.source.network.LoginHelper
 import com.galaxydl.e_university.data.source.network.StartingDayBmobRepository
 import com.galaxydl.e_university.main.MainActivityViewModel
 
@@ -19,6 +20,7 @@ class ViewModelFactory private constructor(
         private val mHolidayInfoBmobRepository: HolidayInfoBmobRepository,
         private val mStartingDayBmobRepository: StartingDayBmobRepository,
         private val mStartingDayRepository: StartingDayRepository,
+        private val mLoginHelper: LoginHelper,
         private val mClassTableCrawler: ClassTableCrawler) : ViewModelProvider.NewInstanceFactory() {
 
     companion object {
@@ -36,6 +38,7 @@ class ViewModelFactory private constructor(
                                 HolidayInfoBmobRepository(),
                                 StartingDayBmobRepository(),
                                 StartingDayRepository(application.applicationContext),
+                                LoginHelper(),
                                 ClassTableCrawler())
                     }
                 }

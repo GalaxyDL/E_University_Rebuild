@@ -8,14 +8,16 @@ object OkHttpClientManager {
     private val clients = HashMap<String, OkHttpClient>()
 
     fun getClient(key: String): OkHttpClient {
-        val client = clients.get(key)
-        return if (client == null) {
-            OkHttpClient.Builder()
+        var client = clients[key]
+        if (client == null) {
+            client = OkHttpClient.Builder()
                     .cookieJar(CookieManager())
+                    .followRedirects(false)
+                    .followSslRedirects(false)
                     .build()
-        } else {
-            client
+            clients[key] = client
         }
+        return client!!
     }
 
 }
