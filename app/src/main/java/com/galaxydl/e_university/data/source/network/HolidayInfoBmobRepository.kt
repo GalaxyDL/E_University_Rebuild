@@ -13,7 +13,7 @@ class HolidayInfoBmobRepository : BaseBmobRepository<HolidayInfoBean>() {
     override fun getBeanClass(): Class<HolidayInfoBean> = HolidayInfoBean::class.java
 
     private companion object {
-        const val URL_SUFFIX = "GameScore"
+        const val URL_SUFFIX = "HolidayInfo"
     }
 
 }

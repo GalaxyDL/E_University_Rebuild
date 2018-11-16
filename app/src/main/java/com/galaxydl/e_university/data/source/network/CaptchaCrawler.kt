@@ -36,7 +36,7 @@ class CaptchaCrawler : BaseCrawler<CaptchaBean>() {
     }
 
     private companion object {
-        val CAPTCHA_URL = "http://my.tjut.edu.cn/captchaGenerate.portal"
+        val CAPTCHA_URL = "http://authserver.tjut.edu.cn/authserver/captcha.html"
     }
 
 }
