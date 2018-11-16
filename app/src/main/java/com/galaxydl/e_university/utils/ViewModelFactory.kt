@@ -5,10 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.galaxydl.e_university.classTable.ClassTableViewModel
 import com.galaxydl.e_university.data.source.local.*
-import com.galaxydl.e_university.data.source.network.ClassTableCrawler
-import com.galaxydl.e_university.data.source.network.HolidayInfoBmobRepository
-import com.galaxydl.e_university.data.source.network.LoginHelper
-import com.galaxydl.e_university.data.source.network.StartingDayBmobRepository
+import com.galaxydl.e_university.data.source.network.*
 import com.galaxydl.e_university.main.MainActivityViewModel
 
 class ViewModelFactory private constructor(
@@ -21,7 +18,8 @@ class ViewModelFactory private constructor(
         private val mStartingDayBmobRepository: StartingDayBmobRepository,
         private val mStartingDayRepository: StartingDayRepository,
         private val mLoginHelper: LoginHelper,
-        private val mClassTableCrawler: ClassTableCrawler) : ViewModelProvider.NewInstanceFactory() {
+        private val mClassTableCrawler: ClassTableCrawler,
+        private val mCaptchaCrawler: CaptchaCrawler) : ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         private lateinit var INSTANCE: ViewModelFactory
@@ -39,7 +37,8 @@ class ViewModelFactory private constructor(
                                 StartingDayBmobRepository(),
                                 StartingDayRepository(application.applicationContext),
                                 LoginHelper(),
-                                ClassTableCrawler())
+                                ClassTableCrawler(),
+                                CaptchaCrawler())
                     }
                 }
             }

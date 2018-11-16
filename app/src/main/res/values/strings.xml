@@ -9,4 +9,7 @@
     <string name="drawer_helper_exams">考试时间</string>
     <string name="drawer_helper_scores">成绩单</string>
 
+    <string name="login_empty_info">学号、密码或验证码不能为空</string>
+    <string name="Login_server_error">信息门户服务器发生错误</string>
+
 </resources>
