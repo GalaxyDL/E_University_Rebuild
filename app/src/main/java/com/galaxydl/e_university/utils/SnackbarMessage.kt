@@ -2,6 +2,7 @@ package com.galaxydl.e_university.utils
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
+import android.support.annotation.StringRes
 
 class SnackbarMessage : SingleLiveEvent<Int>() {
 
@@ -12,4 +13,9 @@ class SnackbarMessage : SingleLiveEvent<Int>() {
             }
         })
     }
+
+    fun show(@StringRes id: Int) {
+        value = id
+    }
+
 }

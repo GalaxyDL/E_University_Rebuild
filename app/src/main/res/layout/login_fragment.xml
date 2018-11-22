@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.galaxydl.e_university.login.LoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            app:errorEnabled="@{viewModel.usernameIsEmpty}"
+            app:errorTextAppearance="@string/login_username_empty"
+            android:id="@+id/usernameEditText">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_hint_username"
+                android:text="@{viewModel.username}"
+                android:maxLines="1"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="@{viewModel.passwordIsEmpty}"
+            app:errorTextAppearance="@string/login_password_empty"
+            android:paddingBottom="8dp"
+            android:id="@+id/passwordEditText">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_hint_password"
+                android:text="@{viewModel.password}"
+                android:maxLines="1"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:orientation="horizontal"
+            android:visibility="@{viewModel.needCaptcha ? View.VISIBLE : View.GONE}">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:errorEnabled="@{viewModel.captchaIsEmpty}"
+                app:errorTextAppearance="@string/login_captcha_empty"
+                android:id="@+id/captchaEditText">
+
+                <EditText
+                    android:layout_width="128dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_hint_captcha"
+                    android:textSize="@{viewModel.captcha}"
+                    android:maxLines="1"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:onClick="@{viewModel::getCaptcha}"
+                android:src="@{viewModel.captchaImage}"
+                android:minWidth="80dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="@string/login_refresh_captcha" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:text="@string/login_remember_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@{viewModel.savePassword}"
+            android:paddingBottom="8dp"
+            android:id="@+id/rememberPassword" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/submitLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_submit"
+            android:onClick="@{viewModel::login}" />
+
+    </LinearLayout>
+
+</layout>

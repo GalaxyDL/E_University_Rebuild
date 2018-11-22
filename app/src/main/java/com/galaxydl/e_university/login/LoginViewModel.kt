@@ -11,6 +11,7 @@ import com.galaxydl.e_university.data.source.local.UserInfoRepository
 import com.galaxydl.e_university.data.source.network.CaptchaCrawler
 import com.galaxydl.e_university.data.source.network.LoginHelper
 import com.galaxydl.e_university.utils.SingleLiveEvent
+import com.galaxydl.e_university.utils.SnackbarMessage
 
 class LoginViewModel(application: Application,
                      private val mLoginHelper: LoginHelper,
@@ -18,26 +19,30 @@ class LoginViewModel(application: Application,
                      private val mCaptchaCrawler: CaptchaCrawler)
     : AndroidViewModel(application) {
 
-    private val username = ObservableField<String>()
+    val username = ObservableField<String>()
 
-    private val password = ObservableField<String>()
+    val password = ObservableField<String>()
 
-    private val captcha = ObservableField<String>()
+    val captcha = ObservableField<String>()
 
-    private val captchaImage = ObservableField<Bitmap>()
+    val captchaImage = ObservableField<Bitmap>()
 
-    private val errorInfo = ObservableField<String>()
+    val savePassword = ObservableBoolean(false)
 
-    private val savePassword = ObservableBoolean(false)
+    val needCaptcha = ObservableBoolean(false)
 
-    private val needCaptcha = ObservableBoolean(false)
+    val usernameIsEmpty = ObservableBoolean(false)
 
-    private val error = ObservableBoolean(false)
+    val passwordIsEmpty = ObservableBoolean(false)
+
+    val captchaIsEmpty = ObservableBoolean(false)
 
     private val context: Context by lazy { application.applicationContext }
 
     val onLoginEvent = SingleLiveEvent<Boolean>()
 
+    val snackbarMessage = SnackbarMessage()
+ 
     private lateinit var mLoginParams: LoginHelper.LoginParams
 
     fun start() {
@@ -64,21 +69,20 @@ class LoginViewModel(application: Application,
         }
     }
 
-    private fun getCaptcha() {
+    fun getCaptcha() {
         mCaptchaCrawler.load({
             if (it.isEmpty()) {
-                //TODO 提示用户验证码获取失败
-                getCaptcha()
+                onError(R.string.login_captcha_error)
             } else {
                 captchaImage.set(it[0].captcha)
             }
         }, {
-            //TODO 提示用户验证码获取失败
-            getCaptcha()
+            onError(R.string.login_captcha_error)
         })
     }
 
     fun login() {
+        usernameIsEmpty.set(username.get() == null)
         if (username.get() == null || password.get() == null || (needCaptcha.get() && captcha.get() == null)) {
             onError(R.string.login_empty_info)
             return
@@ -93,7 +97,7 @@ class LoginViewModel(application: Application,
             }
             doLogin()
         } else {
-            onError(R.string.Login_server_error)
+            onError(R.string.login_server_error)
         }
     }
 
@@ -102,14 +106,13 @@ class LoginViewModel(application: Application,
             if (success) {
                 onLoginEvent.call()
             } else {
-                onError(R.string.Login_server_error)
+                onError(R.string.login_server_error)
             }
         }
     }
 
     private fun onError(stringId: Int) {
-        error.set(true)
-        errorInfo.set(context.getString(stringId))
+        snackbarMessage.show(stringId)
     }
 
     private companion object {
