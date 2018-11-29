@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.galaxydl.e_university.R
 import com.galaxydl.e_university.databinding.LoginFragmentBinding
+import com.galaxydl.e_university.utils.LiveDataEventBus
 import com.galaxydl.e_university.utils.obtainViewModel
 import com.galaxydl.e_university.utils.showSnackbar
 
@@ -37,7 +39,13 @@ class LoginFragment : Fragment() {
 
     private fun setUpOnLoginEvent() {
         mViewModel.onLoginEvent.observe(this, Observer {
-            // TODO
+            mViewModel.update { success ->
+                if (success) {
+                    LiveDataEventBus.get("onUpdated").value = 1
+                } else {
+                    mViewModel.snackbarMessage.show(R.string.login_server_error)
+                }
+            }
         })
     }
 

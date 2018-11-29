@@ -4,8 +4,10 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.galaxydl.e_university.classTable.ClassTableViewModel
+import com.galaxydl.e_university.data.source.DataUpdateUtil
 import com.galaxydl.e_university.data.source.local.*
 import com.galaxydl.e_university.data.source.network.*
+import com.galaxydl.e_university.login.LoginViewModel
 import com.galaxydl.e_university.main.MainActivityViewModel
 
 class ViewModelFactory private constructor(
@@ -20,6 +22,9 @@ class ViewModelFactory private constructor(
         private val mLoginHelper: LoginHelper,
         private val mClassTableCrawler: ClassTableCrawler,
         private val mCaptchaCrawler: CaptchaCrawler) : ViewModelProvider.NewInstanceFactory() {
+
+    private val mDataUpdateUtil: DataUpdateUtil
+            by lazy { DataUpdateUtil(mClassRepository, mClassTableCrawler) }
 
     companion object {
         private lateinit var INSTANCE: ViewModelFactory
@@ -57,6 +62,12 @@ class ViewModelFactory private constructor(
                     mClassRepository,
                     mHolidayInfoBmobRepository,
                     mStartingDayRepository) as T
+            LoginViewModel::class.java -> LoginViewModel(
+                    mApplication,
+                    mLoginHelper,
+                    mUserInfoRepository,
+                    mCaptchaCrawler,
+                    mDataUpdateUtil) as T
             else -> super.create(modelClass)
         }
     }

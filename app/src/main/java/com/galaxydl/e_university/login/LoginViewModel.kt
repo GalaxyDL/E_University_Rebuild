@@ -7,6 +7,7 @@ import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.graphics.Bitmap
 import com.galaxydl.e_university.R
+import com.galaxydl.e_university.data.source.DataUpdateUtil
 import com.galaxydl.e_university.data.source.local.UserInfoRepository
 import com.galaxydl.e_university.data.source.network.CaptchaCrawler
 import com.galaxydl.e_university.data.source.network.LoginHelper
@@ -16,7 +17,8 @@ import com.galaxydl.e_university.utils.SnackbarMessage
 class LoginViewModel(application: Application,
                      private val mLoginHelper: LoginHelper,
                      private val mUserInfoRepository: UserInfoRepository,
-                     private val mCaptchaCrawler: CaptchaCrawler)
+                     private val mCaptchaCrawler: CaptchaCrawler,
+                     private val mDataUpdateUtil: DataUpdateUtil)
     : AndroidViewModel(application) {
 
     val username = ObservableField<String>()
@@ -98,6 +100,12 @@ class LoginViewModel(application: Application,
             doLogin()
         } else {
             onError(R.string.login_server_error)
+        }
+    }
+
+    fun update(onUpdate: (Boolean) -> Unit) {
+        mDataUpdateUtil.update {
+            onUpdate(it)
         }
     }
 

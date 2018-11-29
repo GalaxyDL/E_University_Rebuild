@@ -1,5 +1,6 @@
 package com.galaxydl.e_university.main
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.galaxydl.e_university.R
 import com.galaxydl.e_university.classTable.ClassTableFragment
 import com.galaxydl.e_university.databinding.MainActivityBinding
 import com.galaxydl.e_university.databinding.MainDrawerHeaderBinding
+import com.galaxydl.e_university.utils.LiveDataEventBus
 import com.galaxydl.e_university.utils.obtainViewModel
 import com.galaxydl.e_university.utils.replaceFragmentInActivity
 
@@ -39,7 +41,15 @@ class MainActivity : AppCompatActivity() {
         setupToolBar()
         setupNavigationView()
 
+        setupEvents()
+
         replaceFragmentToClassTable()
+    }
+
+    private fun setupEvents() {
+        LiveDataEventBus.get("onUpdated").observe(this, Observer {
+            replaceFragmentToClassTable()
+        })
     }
 
     private fun setupToolBar() {
