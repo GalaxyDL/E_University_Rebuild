@@ -7,13 +7,18 @@ import android.util.ArrayMap
 
 object LiveDataEventBus {
 
-    private val buses: Map<String, BusLiveData<Any>>
+    private val buses: MutableMap<String, BusLiveData<Any>>
             by lazy { ArrayMap<String, BusLiveData<Any>>() }
 
-    fun get(key: String): MutableLiveData<Any> = buses[key]!!
+    fun get(key: String): MutableLiveData<Any> = get(key, Any::class.java)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> get(key: String, clazz: Class<T>): MutableLiveData<T> = get(key) as MutableLiveData<T>
+    fun <T> get(key: String, clazz: Class<T>): MutableLiveData<T> {
+        if (!buses.containsKey(key)) {
+            buses[key] = BusLiveData(key)
+        }
+        return buses[key]!! as MutableLiveData<T>
+    }
 
     private class BusLiveData<T>(private val mEventKey: String) : MutableLiveData<T>() {
 
