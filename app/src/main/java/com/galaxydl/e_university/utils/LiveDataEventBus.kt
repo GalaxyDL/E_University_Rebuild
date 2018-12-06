@@ -23,9 +23,7 @@ object LiveDataEventBus {
     private class BusLiveData<T>(private val mEventKey: String) : MutableLiveData<T>() {
 
         var needNotify = false
-            private set(v) {
-                field = v
-            }
+            private set
 
         override fun setValue(value: T) {
             needNotify = true

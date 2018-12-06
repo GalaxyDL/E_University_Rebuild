@@ -29,11 +29,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
 
+        mBinding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
+
         mMainActivityViewModel = obtainViewModel(this, MainActivityViewModel::class.java)
         mMainActivityViewModel.start()
+    }
 
-        mBinding = MainActivityBinding.inflate(LayoutInflater.from(this))
-
+    override fun onResume() {
+        super.onResume()
         start()
     }
 

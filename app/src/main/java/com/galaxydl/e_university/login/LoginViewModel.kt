@@ -63,7 +63,7 @@ class LoginViewModel(application: Application,
                 } else {
                     if (it.needCaptcha) {
                         needCaptcha.set(it.needCaptcha)
-                        getCaptcha()
+                        loadCaptcha()
                     }
                 }
                 mLoginParams = it
@@ -71,7 +71,7 @@ class LoginViewModel(application: Application,
         }
     }
 
-    fun getCaptcha() {
+    fun loadCaptcha() {
         mCaptchaCrawler.load({
             if (it.isEmpty()) {
                 onError(R.string.login_captcha_error)

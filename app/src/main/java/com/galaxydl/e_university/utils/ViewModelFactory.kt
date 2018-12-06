@@ -27,12 +27,12 @@ class ViewModelFactory private constructor(
             by lazy { DataUpdateUtil(mClassRepository, mClassTableCrawler) }
 
     companion object {
-        private lateinit var INSTANCE: ViewModelFactory
+        private var INSTANCE: ViewModelFactory? = null
 
         fun getInstance(application: Application): ViewModelFactory {
-            if (!::INSTANCE.isInitialized) {
+            if (INSTANCE == null) {
                 synchronized(ViewModelFactory::class) {
-                    if (!::INSTANCE.isInitialized) {
+                    if (INSTANCE == null) {
                         INSTANCE = ViewModelFactory(application,
                                 ClassRepository(application.applicationContext),
                                 ExamRepository(application.applicationContext),
@@ -47,7 +47,7 @@ class ViewModelFactory private constructor(
                     }
                 }
             }
-            return INSTANCE
+            return INSTANCE!!
         }
     }
 
