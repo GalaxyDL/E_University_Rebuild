@@ -38,12 +38,12 @@ class ViewModelFactory private constructor(
                                 ExamRepository(application.applicationContext),
                                 ScoreRepository(application.applicationContext),
                                 UserInfoRepository(application.applicationContext),
-                                HolidayInfoBmobRepository(),
-                                StartingDayBmobRepository(),
+                                HolidayInfoBmobRepository(application.applicationContext),
+                                StartingDayBmobRepository(application.applicationContext),
                                 StartingDayRepository(application.applicationContext),
-                                LoginHelper(),
-                                ClassTableCrawler(),
-                                CaptchaCrawler())
+                                LoginHelper(application.applicationContext),
+                                ClassTableCrawler(application.applicationContext),
+                                CaptchaCrawler(application.applicationContext))
                     }
                 }
             }

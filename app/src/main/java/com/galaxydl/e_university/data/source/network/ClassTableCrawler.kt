@@ -1,5 +1,6 @@
 package com.galaxydl.e_university.data.source.network
 
+import android.content.Context
 import com.galaxydl.e_university.data.bean.ClassBean
 import com.galaxydl.e_university.utils.CLASS_END_TIME
 import com.galaxydl.e_university.utils.CLASS_START_TIME
@@ -14,10 +15,10 @@ import org.jsoup.nodes.Element
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ClassTableCrawler : BaseCrawler<ClassBean>() {
+class ClassTableCrawler(context: Context) : BaseCrawler<ClassBean>(context) {
 
     override val client: OkHttpClient by lazy {
-        OkHttpClientManager.getClient(TJUT_CLIENT_KEY)
+        OkHttpClientManager.getClient(TJUT_CLIENT_KEY, context)
     }
 
     private var classCount = 0

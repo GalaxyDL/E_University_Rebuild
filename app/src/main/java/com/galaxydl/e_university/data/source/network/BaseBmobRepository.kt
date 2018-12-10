@@ -1,5 +1,6 @@
 package com.galaxydl.e_university.data.source.network
 
+import android.content.Context
 import com.alibaba.fastjson.JSON
 import com.galaxydl.e_university.data.bean.BaseBean
 import kotlinx.coroutines.experimental.CommonPool
@@ -9,7 +10,7 @@ import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-abstract class BaseBmobRepository<B : BaseBean> : NetworkDataSource<B> {
+abstract class BaseBmobRepository<B : BaseBean>(val context: Context) : NetworkDataSource<B> {
     protected abstract val client: OkHttpClient
 
     protected companion object {

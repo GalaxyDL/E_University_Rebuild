@@ -1,5 +1,6 @@
 package com.galaxydl.e_university.data.source.network
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import com.galaxydl.e_university.data.bean.CaptchaBean
 import kotlinx.coroutines.experimental.CommonPool
@@ -8,9 +9,9 @@ import kotlinx.coroutines.experimental.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class CaptchaCrawler : BaseCrawler<CaptchaBean>() {
+class CaptchaCrawler(context: Context) : BaseCrawler<CaptchaBean>(context) {
     override val client: OkHttpClient by lazy {
-        OkHttpClientManager.getClient(TJUT_CLIENT_KEY)
+        OkHttpClientManager.getClient(TJUT_CLIENT_KEY, context)
     }
 
     override suspend fun crawl(): List<CaptchaBean> {

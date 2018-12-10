@@ -1,5 +1,6 @@
 package com.galaxydl.e_university.data.source.network
 
+import android.content.Context
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import okhttp3.*
@@ -7,10 +8,10 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
-class LoginHelper {
+class LoginHelper(val context: Context) {
 
     private val client: OkHttpClient by lazy {
-        OkHttpClientManager.getClient(TJUT_CLIENT_KEY)
+        OkHttpClientManager.getClient(TJUT_CLIENT_KEY, context)
     }
 
     fun login(loginParams: LoginParams,

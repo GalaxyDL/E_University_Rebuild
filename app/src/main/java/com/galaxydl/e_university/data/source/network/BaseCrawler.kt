@@ -1,10 +1,11 @@
 package com.galaxydl.e_university.data.source.network
 
+import android.content.Context
 import com.galaxydl.e_university.data.bean.BaseBean
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 
-abstract class BaseCrawler<B : BaseBean> : NetworkDataSource<B> {
+abstract class BaseCrawler<B : BaseBean>(val context: Context) : NetworkDataSource<B> {
 
     protected abstract val client: OkHttpClient
 
