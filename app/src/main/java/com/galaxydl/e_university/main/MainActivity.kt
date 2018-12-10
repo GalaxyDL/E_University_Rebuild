@@ -11,6 +11,7 @@ import com.galaxydl.e_university.R
 import com.galaxydl.e_university.classTable.ClassTableFragment
 import com.galaxydl.e_university.databinding.MainActivityBinding
 import com.galaxydl.e_university.databinding.MainDrawerHeaderBinding
+import com.galaxydl.e_university.login.LoginFragment
 import com.galaxydl.e_university.utils.LiveDataEventBus
 import com.galaxydl.e_university.utils.obtainViewModel
 import com.galaxydl.e_university.utils.replaceFragmentInActivity
@@ -23,7 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mLastCheckedMenuItem: MenuItem
 
-    private lateinit var mClassTableFragment: ClassTableFragment
+    private val mClassTableFragment: ClassTableFragment by lazy { ClassTableFragment() }
+
+    private val mLoginFragment: LoginFragment by lazy { LoginFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +50,11 @@ class MainActivity : AppCompatActivity() {
 
         setupEvents()
 
-        replaceFragmentToClassTable()
+        if (mMainActivityViewModel.userInfo.get() == null) {
+            replaceFragmentToLogin()
+        } else {
+            replaceFragmentToClassTable()
+        }
     }
 
     private fun setupEvents() {
@@ -82,7 +89,9 @@ class MainActivity : AppCompatActivity() {
                     R.id.classTable -> {
                         replaceFragmentToClassTable()
                     }
-
+                    R.id.login -> {
+                        replaceFragmentToLogin()
+                    }
                 }
                 closeDrawer()
                 return@setNavigationItemSelectedListener true
@@ -94,15 +103,16 @@ class MainActivity : AppCompatActivity() {
         mBinding.mainToolbar.setTitle(R.string.class_table_title)
         replaceFragmentInActivity(
                 supportFragmentManager,
-                getClassTableFragment(),
+                mClassTableFragment,
                 R.id.mainFrame)
     }
 
-    private fun getClassTableFragment(): ClassTableFragment {
-        if (!::mClassTableFragment.isInitialized) {
-            mClassTableFragment = ClassTableFragment()
-        }
-        return mClassTableFragment
+    private fun replaceFragmentToLogin() {
+        mBinding.mainToolbar.setTitle(R.string.login_title)
+        replaceFragmentInActivity(
+                supportFragmentManager,
+                mLoginFragment,
+                R.id.mainFrame)
     }
 
     private fun openDrawer() {

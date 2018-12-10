@@ -18,6 +18,9 @@
                     android:title="@string/drawer_helper_scores" />
             </menu>
         </item>
+        <item
+            android:title="@string/drawer_login_title"
+            android:id="@+id/login" />
     </group>
 
 </menu>
