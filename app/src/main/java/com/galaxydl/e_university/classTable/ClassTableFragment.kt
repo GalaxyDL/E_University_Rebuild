@@ -24,6 +24,9 @@ class ClassTableFragment : Fragment() {
         mBinding = ClassTableFragmentBinding.inflate(inflater, container, false)
         mViewModel = obtainViewModel(activity!!, ClassTableViewModel::class.java)
 
+        mBinding.setLifecycleOwner(this)
+        mBinding.viewModel = mViewModel
+
         setupRecyclerView()
 
         return mBinding.root

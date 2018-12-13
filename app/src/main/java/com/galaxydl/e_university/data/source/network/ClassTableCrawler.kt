@@ -1,6 +1,7 @@
 package com.galaxydl.e_university.data.source.network
 
 import android.content.Context
+import android.util.Log
 import com.galaxydl.e_university.data.bean.ClassBean
 import com.galaxydl.e_university.utils.CLASS_END_TIME
 import com.galaxydl.e_university.utils.CLASS_START_TIME
@@ -43,7 +44,8 @@ class ClassTableCrawler(context: Context) : BaseCrawler<ClassBean>(context) {
                 .headers(HEADERS)
                 .build()
         val response = client.newCall(request).execute()
-        val document = Jsoup.parse(response.body().toString())
+        Log.d("ClassTableCrawler", response.headers().toString())
+        val document = Jsoup.parse(response.body()!!.string())
         parse(document, result)
         return result
     }

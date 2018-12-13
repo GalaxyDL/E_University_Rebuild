@@ -33,10 +33,13 @@ class MainActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
 
         mBinding = MainActivityBinding.inflate(layoutInflater)
+        mBinding.setLifecycleOwner(this)
         setContentView(mBinding.root)
 
         mMainActivityViewModel = obtainViewModel(this, MainActivityViewModel::class.java)
         mMainActivityViewModel.start()
+
+        mBinding.viewModel = mMainActivityViewModel
     }
 
     override fun onResume() {

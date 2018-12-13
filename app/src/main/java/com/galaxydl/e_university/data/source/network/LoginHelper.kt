@@ -1,7 +1,9 @@
 package com.galaxydl.e_university.data.source.network
 
 import android.content.Context
+import android.util.Log
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import okhttp3.*
 import org.jsoup.Jsoup
@@ -24,12 +26,14 @@ class LoginHelper(val context: Context) {
                     .post(requestBody)
                     .build()
             val response = client.newCall(request).execute()
+            Log.d("LoginHelper", response.headers().toString())
             if (response.code() == 302) {
                 if (doSsfwLogin()) {
-                    onLogin(true)
+                    launch(UI) { onLogin(true) }
                 }
+            } else {
+                launch(UI) { onLogin(false) }
             }
-            onLogin(false)
         }
     }
 
@@ -40,7 +44,8 @@ class LoginHelper(val context: Context) {
                 .get()
                 .build()
         val response = client.newCall(request).execute()
-        val redirectLocation = response.header("location") ?: return false
+        Log.d("LoginHelper", response.headers().toString())
+        val redirectLocation = response.header("Location") ?: return false
         return redirectLocation.contains("success=true")
     }
 
@@ -73,10 +78,10 @@ class LoginHelper(val context: Context) {
                 .get()
                 .build()
         val response = client.newCall(request).execute()
-        val document: Document = Jsoup.parse(response.body().toString())
+        val document: Document = Jsoup.parse(response.body()!!.string())
         val from = document.getElementById(LOGIN_FROM_ID)
         val loginParams = LoginParams()
-        val size = from.childNodeSize()
+        val size = from.children().size
         var child: Element
         for (i in 1 until size) {
             child = from.child(i)

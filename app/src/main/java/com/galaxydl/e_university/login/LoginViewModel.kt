@@ -6,6 +6,7 @@ import android.content.Context
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.graphics.Bitmap
+import android.util.Log
 import com.galaxydl.e_university.R
 import com.galaxydl.e_university.data.source.DataUpdateUtil
 import com.galaxydl.e_university.data.source.local.UserInfoRepository
@@ -13,6 +14,9 @@ import com.galaxydl.e_university.data.source.network.CaptchaCrawler
 import com.galaxydl.e_university.data.source.network.LoginHelper
 import com.galaxydl.e_university.utils.SingleLiveEvent
 import com.galaxydl.e_university.utils.SnackbarMessage
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 class LoginViewModel(application: Application,
                      private val mLoginHelper: LoginHelper,
@@ -56,17 +60,19 @@ class LoginViewModel(application: Application,
                 savePassword.set(true)
             }
         }
-        mLoginHelper.getLoginParams { loginParams ->
-            loginParams?.let {
-                if (it.hasLogin) {
-                    onLoginEvent.call()
-                } else {
-                    if (it.needCaptcha) {
-                        needCaptcha.set(it.needCaptcha)
-                        loadCaptcha()
+        launch(CommonPool) {
+            mLoginHelper.getLoginParams { loginParams ->
+                loginParams?.let {
+                    if (it.hasLogin) {
+                        launch(UI) { onLoginEvent.call() }
+                    } else {
+                        if (it.needCaptcha) {
+                            needCaptcha.set(it.needCaptcha)
+                            launch(CommonPool) { loadCaptcha() }
+                        }
                     }
+                    mLoginParams = it
                 }
-                mLoginParams = it
             }
         }
     }
@@ -74,16 +80,17 @@ class LoginViewModel(application: Application,
     fun loadCaptcha() {
         mCaptchaCrawler.load({
             if (it.isEmpty()) {
-                onError(R.string.login_captcha_error)
+                launch(UI) { onError(R.string.login_captcha_error) }
             } else {
                 captchaImage.set(it[0].captcha)
             }
         }, {
-            onError(R.string.login_captcha_error)
+            launch(UI) { onError(R.string.login_captcha_error) }
         })
     }
 
     fun login() {
+        Log.d("LoginViewModel", "login()")
         usernameIsEmpty.set(username.get() == null)
         if (username.get() == null || password.get() == null || (needCaptcha.get() && captcha.get() == null)) {
             onError(R.string.login_empty_info)
@@ -97,22 +104,27 @@ class LoginViewModel(application: Application,
                     addParameter(CAPTCHA_NAME, captcha.get()!!)
                 }
             }
-            doLogin()
+            Log.d("LoginViewModel", mLoginParams.toString())
+            launch(CommonPool) { doLogin() }
         } else {
             onError(R.string.login_server_error)
         }
     }
 
     fun update(onUpdate: (Boolean) -> Unit) {
-        mDataUpdateUtil.update {
-            onUpdate(it)
+        Log.d("LoginViewModel", "update()")
+        launch(CommonPool) {
+            mDataUpdateUtil.update {
+                launch(UI) { onUpdate(it) }
+            }
         }
     }
 
-    private fun doLogin() {
+    private suspend fun doLogin() {
         mLoginHelper.login(mLoginParams) { success ->
+            Log.d("LoginViewModel", "login $success.")
             if (success) {
-                onLoginEvent.call()
+                launch(UI) { onLoginEvent.call() }
             } else {
                 onError(R.string.login_server_error)
             }
@@ -120,7 +132,7 @@ class LoginViewModel(application: Application,
     }
 
     private fun onError(stringId: Int) {
-        snackbarMessage.show(stringId)
+        launch(UI) { snackbarMessage.show(stringId) }
     }
 
     private companion object {

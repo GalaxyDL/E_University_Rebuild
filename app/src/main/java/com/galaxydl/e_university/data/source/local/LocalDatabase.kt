@@ -17,19 +17,20 @@ abstract class LocalDatabase : RoomDatabase() {
     companion object {
         private const val DATABASE_NAME = "eUniversity.db"
 
-        private lateinit var INSTANCE: LocalDatabase
+        private var INSTANCE: LocalDatabase? = null
 
         fun getInstance(context: Context): LocalDatabase {
-            synchronized(LocalDatabase::class) {
-                if (!Companion::INSTANCE.isInitialized) {
-                    INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            LocalDatabase::class.java,
-                            DATABASE_NAME).build()
+            if (INSTANCE == null) {
+                synchronized(LocalDatabase::class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = Room.databaseBuilder(
+                                context.applicationContext,
+                                LocalDatabase::class.java,
+                                DATABASE_NAME).build()
+                    }
                 }
             }
-
-            return INSTANCE
+            return INSTANCE!!
         }
     }
 

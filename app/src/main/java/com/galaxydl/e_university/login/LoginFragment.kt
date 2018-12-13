@@ -3,6 +3,7 @@ package com.galaxydl.e_university.login
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,9 @@ class LoginFragment : Fragment() {
         mBinding = LoginFragmentBinding.inflate(inflater, container, false)
         mViewModel = obtainViewModel(activity!!, LoginViewModel::class.java)
 
+        mBinding.setLifecycleOwner(this)
+        mBinding.viewModel = mViewModel
+
         setUpSnackBar()
 
         setUpOnLoginEvent()
@@ -40,6 +44,7 @@ class LoginFragment : Fragment() {
     private fun setUpOnLoginEvent() {
         mViewModel.onLoginEvent.observe(this, Observer {
             mViewModel.update { success ->
+                Log.d("LoginFragment", "update $success.")
                 if (success) {
                     LiveDataEventBus.get("onUpdated").value = 1
                 } else {
